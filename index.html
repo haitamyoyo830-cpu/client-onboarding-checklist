@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Client Onboarding Checklist</title>
+  <meta name="description" content="Start every client from a reusable onboarding checklist. Customize tasks, track progress, and print a clean copy for your client.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="screen">
+    <header class="tool-head">
+      <div>
+        <h1>Client Onboarding Checklist</h1>
+        <p class="lede">Start each new client from the same checklist, adjust it, tick tasks off, and print a copy for the client.</p>
+      </div>
+      <div class="button-row">
+        <button type="button" class="button" id="demo-button">Load demo</button>
+        <button type="button" class="button button--primary" id="print-button">Print client copy</button>
+      </div>
+    </header>
+
+    <main>
+      <noscript><p class="alert">This tool needs JavaScript. Turn it on for this page and reload.</p></noscript>
+      <div id="storage-alert" class="alert" role="alert" hidden></div>
+      <div id="message" class="message" hidden>
+        <p id="message-text" role="status"></p>
+        <button type="button" class="link-button" id="undo-button" hidden>Undo</button>
+      </div>
+
+      <section class="panel" aria-labelledby="client-title">
+        <div class="panel-head">
+          <h2 id="client-title">Client</h2>
+          <div class="button-row picker">
+            <label for="checklist-select" class="visually-hidden">Choose a checklist</label>
+            <select id="checklist-select"></select>
+            <button type="button" class="button" id="new-button">New checklist</button>
+            <button type="button" class="button button--danger" id="delete-checklist">Delete</button>
+          </div>
+        </div>
+        <form id="details-form" class="field-grid" autocomplete="off" novalidate>
+          <div class="field"><label for="d-client">Client name</label><input id="d-client" name="client" maxlength="120" placeholder="e.g. Juniper Street Bakery"></div>
+          <div class="field"><label for="d-project">Project</label><input id="d-project" name="project" maxlength="120" placeholder="e.g. New website"></div>
+          <div class="field"><label for="d-start">Start date</label><input id="d-start" name="startDate" type="date"></div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="tasks-title">
+        <div class="panel-head">
+          <h2 id="tasks-title">Checklist</h2>
+          <p class="progress-text" id="progress-text" role="status"></p>
+        </div>
+        <div class="progress" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
+        <div id="sections"></div>
+
+        <form id="add-form" class="add-form" autocomplete="off" novalidate>
+          <h3>Add a task</h3>
+          <div class="add-grid">
+            <div class="field"><label for="a-text">Task</label><input id="a-text" name="text" maxlength="200"><p class="error" data-error="text"></p></div>
+            <div class="field"><label for="a-section">Section</label><input id="a-section" name="section" maxlength="60" list="section-list"></div>
+            <div class="field"><label for="a-owner">Who</label>
+              <select id="a-owner" name="owner"><option value="you">You</option><option value="client">Client</option></select></div>
+            <button type="submit" class="button button--primary">Add task</button>
+          </div>
+          <datalist id="section-list"></datalist>
+        </form>
+      </section>
+
+      <details class="panel template">
+        <summary>Your reusable template</summary>
+        <p>New checklists start from your template. Right now it has <strong id="template-count"></strong> tasks.</p>
+        <div class="button-row">
+          <button type="button" class="button" id="save-template">Use this checklist as my template</button>
+          <button type="button" class="button" id="reset-template">Reset template to the default</button>
+        </div>
+        <p class="hint">Saving the template copies the tasks only. Ticks and client details stay with each checklist.</p>
+      </details>
+
+      <section class="panel print-options" aria-labelledby="print-title">
+        <h2 id="print-title">Client copy</h2>
+        <fieldset class="radios">
+          <legend class="visually-hidden">Tasks to include</legend>
+          <label><input type="radio" name="print-scope" value="all" checked> All tasks, with who does each one</label>
+          <label><input type="radio" name="print-scope" value="client"> Only the tasks for the client</label>
+        </fieldset>
+      </section>
+    </main>
+
+    <footer class="tool-foot">
+      <p>Saved only in this browser, on this device. Print or save the client copy as a PDF to share it.</p>
+    </footer>
+  </div>
+
+  <article class="print-view" id="print-view" aria-hidden="true"></article>
+
+  <dialog id="edit-dialog" aria-labelledby="edit-title">
+    <form id="edit-form" method="dialog" novalidate autocomplete="off">
+      <h2 id="edit-title">Edit task</h2>
+      <div class="field-grid">
+        <div class="field field--wide"><label for="e-text">Task</label><input id="e-text" name="text" maxlength="200"><p class="error" data-error="text"></p></div>
+        <div class="field"><label for="e-section">Section</label><input id="e-section" name="section" maxlength="60" list="section-list"></div>
+        <div class="field"><label for="e-owner">Who</label><select id="e-owner" name="owner"><option value="you">You</option><option value="client">Client</option></select></div>
+      </div>
+      <div class="button-row">
+        <button type="button" class="button" data-close>Cancel</button>
+        <button type="submit" class="button button--primary">Save task</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="core.js"></script>
+  <script src="demo-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
